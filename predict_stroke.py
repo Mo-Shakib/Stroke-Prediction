@@ -37,7 +37,7 @@ user_data = {
 }
 
 
-with open('RandomForest.pkl', 'rb') as file:
+with open('Models/RandomForest.pkl', 'rb') as file:
     predictor = pickle.load(file)
 
 X_test = np.array([list(user_data.values())])
