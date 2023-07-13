@@ -48,6 +48,6 @@ predictions = predictor.predict(X_test)
 # Predictions
 
 if predictions[0] == 1:
-    print("You are at risk of a stroke!")
+    print("\n[=] You are at risk of a stroke!")
 else:
-    print("You are not at risk of a stroke.")
+    print("\n[=] You are not at risk of a stroke.")
