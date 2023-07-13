@@ -21,20 +21,20 @@ This project aims to build a machine learning model that can predict the probabi
 
 ## Dataset
 
-The dataset used for this project contains the following features:
+The [dataset](dataset.csv) used for this project contains the following features:
 
-- `id`: Unique identifier for each individual
-- `gender`: Male or Female
-- `age`: Age of the individual in years
-- `hypertension`: Whether the individual has hypertension (0 - No, 1 - Yes)
-- `heart_disease`: Whether the individual has heart disease (0 - No, 1 - Yes)
-- `ever_married`: Whether the individual is ever married (Yes or No)
-- `work_type`: Type of work (Private, Self-employed, Govt_job, children, Never_worked)
-- `Residence_type`: Type of residence (Urban or Rural)
-- `avg_glucose_level`: Average glucose level in blood
-- `bmi`: Body mass index
-- `smoking_status`: Smoking status of the individual (formerly smoked, never smoked, smokes, unknown)
-- `stroke`: Whether the individual had a stroke (0 - No, 1 - Yes)
+- `id`: The unique identifier for each individual.
+- `gender`: The gender of the individual (Male or Female).
+- `age`: The age of the individual in years.
+- `hypertension`: Indicates whether the individual has hypertension (0 for No, 1 for Yes).
+- `heart_disease`: Indicates whether the individual has a heart disease (0 for No, 1 for Yes).
+- `ever_married`: Indicates whether the individual is ever married (No or Yes).
+- `work_type`: The type of work the individual is engaged in (children, government, private, self-employed, or never worked).
+- `Residence_type`: The type of residence of the individual (Rural or Urban).
+- `avg_glucose_level`: The average glucose level in the individual's blood.
+- `bmi`: The body mass index (BMI) of the individual.
+- `smoking_status`: The smoking status of the individual (formerly smoked, never smoked, or smokes).
+- `stroke`: Indicates whether the individual had a stroke (0 for No, 1 for Yes).
 
 The dataset used in this project is included in this repository. 
 
@@ -63,30 +63,35 @@ The dataset used in this project is included in this repository.
 The main script for running the stroke prediction model is `predict_stroke.py`. You can use this script to predict stroke probabilities for new data points. Here's an example of how to use it:
 
 ```python
-from predictor import StrokePredictor
-
-# Create an instance of the predictor
-predictor = StrokePredictor()
-
-# Load the pre-trained model
-predictor.load_model('model.pkl')
-
 # Make predictions for new data points
-data = {
-    'age': 45,
-    'gender': 'Male',
-    'hypertension': 0,
-    'heart_disease': 0,
-    'ever_married': 'Yes',
-    'work_type': 'Private',
-    'Residence_type': 'Urban',
-    'avg_glucose_level': 80.5,
-    'bmi': 25.5,
-    'smoking_status': 'formerly smoked'
+user_data = {
+    'age': age,
+    'hypertension': hypertension,
+    'heart_disease': heart_disease,
+    'ever_married': ever_married,
+    'avg_glucose_level': avg_glucose_level,
+    'bmi': bmi,
+    'female': gender == "female",
+    'male': gender == "male",
+    'Other': gender == "other",
+    'government_work': work_type == "government",
+    'private_work': work_type == "private",
+    'self_employed': work_type == "self-employed",
+    'children_work': work_type == "children",
+    'never_worked': work_type == "never worked",
+    'rural_resident': residence_type == "rural",
+    'urban_resident': residence_type == "urban",
+    'formerly_smoked': smoking_status == "formerly smoked",
+    'never_smoked': smoking_status == "never smoked",
+    'smokes': smoking_status == "smokes"
 }
 
-probability = predictor.predict(data)
-print(f"Stroke probability: {probability}")
+with open('model_name.pkl', 'rb') as file:
+    predictor = pickle.load(file)
+
+X_test = np.array([list(user_data.values())])
+predictions = predictor.predict(X_test)
+
 ```
 
 ## Model Training
@@ -97,14 +102,14 @@ To train the stroke prediction model using the provided dataset, you can run the
 python train_model.py
 ```
 
-The trained model will be saved as `model.pkl` in the project directory.
+The trained models will be saved as `RandomForest.pkl, LinearSVC.pkl, NeuralNetwork.pkl, LogisticRegression.pkl, KNN.pkl` in the project directory.
 
-## Evaluation
+## Prediction
 
-The performance of the trained model can be evaluated using the `evaluate_model.py` script. This script calculates various evaluation metrics such as accuracy, precision, recall, and F1-score.
+The outcome of the trained model can be tested using the `predict_stroke.py` script. Providing user input, one can predict the outcome.
 
 ```bash
-python evaluate_model.py
+python predict_stroke.py
 ```
 
 ## Contributing
